@@ -61,30 +61,31 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log )
 
-
-set_target_properties(
-        spdlog PROPERTIES IMPORTED_LOCATION
-        /home/user/AndroidStudioProjects/libs/spdlog/build/armeabi-v7a/libspdlog.a
-)
-
-target_include_directories(
-        native-lib PUBLIC
-        /home/user/AndroidStudioProjects/libs/spdlog/spdlog/include
-        /home/user/AndroidStudioProjects/libs/mbedtls/mbedtls/include
-)
 add_library(mbedcrypto SHARED IMPORTED)
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
+
 set_target_properties(
-        mbedcrypto PROPERTIES IMPORTED_LOCATION /home/user/AndroidStudioProjects/libs/mbedtls/build/armeabi-v7a/library/libmbedcrypto.so
+        spdlog PROPERTIES IMPORTED_LOCATION
+        /home/user/AndroidStudioProjects/libs/spdlog/build/armeabi-v7a/libspdlog.a
 )
+set_target_properties(mbedcrypto PROPERTIES IMPORTED_LOCATION
+        /home/user/AndroidStudioProjects/libs/mbedtls/build/x86/library/libmbedcrypto.so)
+
+target_include_directories(
+        native-lib PUBLIC
+        /home/user/AndroidStudioProjects/libs/spdlog/spdlog/include
+        /home/user/AndroidStudioProjects/libs/mbedtls/mbedtls/include
+)
+
 target_link_libraries( # Specifies the target library.
         native-lib
         spdlog
         mbedcrypto
         # Links the target library to the log library
         # included in the NDK.
+        ${log-lib}
         )
